@@ -6,28 +6,70 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
     }
-    h1, h2, h3 {
+    header {
       text-align: center;
+      padding: 10px 0;
+    }
+    header img {
+      max-width: 120px;
+      display: none; /* Ẩn logo mặc định */
+    }
+    h1 {
+      font-size: 26px;
       margin: 5px 0;
+      color: #004080;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 5px 0;
+      color: #006699;
+    }
+    h3 {
+      font-size: 16px;
+      margin: 5px 0 15px;
+      color: #444;
     }
     .search-box {
       text-align: center;
       margin: 15px 0;
     }
+    .search-box input {
+      padding: 8px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .search-box button {
+      padding: 8px 15px;
+      margin-left: 5px;
+      background-color: #006699;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background-color: #004d66;
+    }
     .table-container {
       max-width: 100%;
       overflow-x: auto;
+      padding: 0 10px;
     }
     table {
       border-collapse: collapse;
       margin: 0 auto;
-      width: 95%;
+      width: 100%;
+      background-color: white;
     }
     th, td {
       border: 1px solid #ccc;
       padding: 6px 8px;
       text-align: left;
+      font-size: 14px;
     }
     th {
       background-color: #006699;
@@ -40,10 +82,13 @@
 </head>
 <body>
 
-  <!-- Tiêu đề -->
-  <h1>Trường Đại học Kiên Giang</h1>
-  <h2>Tra cứu thông tin Tân sinh viên</h2>
-  <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
+  <!-- Tiêu đề + Logo -->
+  <header>
+    <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang">
+    <h1>Trường Đại học Kiên Giang</h1>
+    <h2>Tra cứu thông tin Tân sinh viên</h2>
+    <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
+  </header>
 
   <!-- ô nhập và nút tra cứu -->
   <div class="search-box">
