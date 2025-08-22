@@ -4,79 +4,122 @@
   <meta charset="UTF-8">
   <title>Tra cứu thông tin sinh viên</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
+    /* Reset cơ bản */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-color: #eef2f5;
+      color: #333;
+      line-height: 1.5;
+    }
+
     header {
       text-align: center;
-      padding: 10px 0;
+      padding: 20px 10px;
+      background: linear-gradient(135deg, #004080, #006699);
+      color: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
     }
+
     header img {
-      max-width: 120px;
-      /* Ẩn logo mặc định */
+      max-width: 100px;
+      margin-bottom: 10px;
     }
+
     h1 {
-      font-size: 26px;
-      margin: 5px 0;
-      color: #004080;
+      font-size: 28px;
+      margin-bottom: 5px;
     }
+
     h2 {
       font-size: 20px;
-      margin: 5px 0;
-      color: #006699;
+      font-weight: 400;
+      margin-bottom: 5px;
     }
+
     h3 {
       font-size: 16px;
-      margin: 5px 0 15px;
-      color: #444;
+      font-weight: 300;
+      opacity: 0.9;
     }
+
     .search-box {
       text-align: center;
-      margin: 15px 0;
+      margin: 25px 0;
     }
+
     .search-box input {
-      padding: 8px;
-      width: 250px;
+      padding: 10px 12px;
+      width: 280px;
       border: 1px solid #ccc;
       border-radius: 4px;
+      font-size: 15px;
+      transition: border-color 0.3s;
     }
+
+    .search-box input:focus {
+      border-color: #006699;
+      outline: none;
+      box-shadow: 0 0 4px rgba(0,102,153,0.3);
+    }
+
     .search-box button {
-      padding: 8px 15px;
-      margin-left: 5px;
+      padding: 10px 18px;
+      margin-left: 8px;
       background-color: #006699;
       color: white;
       border: none;
       border-radius: 4px;
+      font-size: 15px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
+
     .search-box button:hover {
       background-color: #004d66;
     }
+
     .table-container {
       max-width: 100%;
       overflow-x: auto;
-      padding: 0 10px;
+      padding: 0 15px 30px;
     }
+
     table {
       border-collapse: collapse;
       margin: 0 auto;
       width: 100%;
       background-color: white;
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
+
     th, td {
-      border: 1px solid #ccc;
-      padding: 6px 8px;
+      border: 1px solid #ddd;
+      padding: 10px 8px;
       text-align: left;
       font-size: 14px;
     }
+
     th {
       background-color: #006699;
       color: white;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
+
     tr:nth-child(even) {
-      background-color: #f5f5f5;
+      background-color: #f9f9f9;
+    }
+
+    tr:hover td {
+      background-color: #eef6fa;
     }
   </style>
 </head>
@@ -117,10 +160,7 @@
 
   <!-- PapaParse -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- script.js mới -->
+  <!-- script.js -->
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
