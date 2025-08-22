@@ -14,15 +14,13 @@ function searchStudent() {
     download: true,
     header: true,
     skipEmptyLines: true,
-    // loại bỏ BOM trước khi parse
-    beforeFirstChunk: (chunk) => chunk.replace(/^\uFEFF/, ''),
+    beforeFirstChunk: chunk => chunk.replace(/^\uFEFF/, ''), // bỏ BOM
     complete: function(results) {
-      // Chuẩn hóa key và value: trim
+      // Chuẩn hóa key và value: trim khoảng trắng
       const data = results.data.map(row => {
         const clean = {};
         Object.keys(row).forEach(k => {
-          const key = k.trim();
-          clean[key] = row[k] != null ? row[k].trim() : '';
+          clean[k.trim()] = row[k] ? row[k].trim() : '';
         });
         return clean;
       });
@@ -32,8 +30,7 @@ function searchStudent() {
 
       if (matches.length === 0) {
         tbody.innerHTML = `<tr>
-          <td colspan="${Object.keys(data[0]||{}).length+1}" 
-              style="text-align:center;color:red;">
+          <td colspan="${Object.keys(data[0] || {}).length}" style="text-align:center;color:red;">
             Không tìm thấy dữ liệu
           </td>
         </tr>`;
@@ -42,9 +39,8 @@ function searchStudent() {
 
       // Render kết quả
       matches.forEach((row, i) => {
-        // Nếu bạn đã đặt STT là cột riêng, chúng ta xuất i+1
         const cells = [
-          i+1,
+          i + 1,
           row['Số ĐDCN'],
           row['Mã xét tuyển'],
           row['Tên mã xét tuyển'],
@@ -70,7 +66,6 @@ function searchStudent() {
     },
     error: function(err) {
       console.error(err);
-      const tbody = document.querySelector('#resultTable tbody');
       tbody.innerHTML = `<tr>
         <td colspan="17" style="text-align:center;color:red;">
           Lỗi khi tải dữ liệu
