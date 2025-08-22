@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tra cứu thông tin sinh viên</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    header {
+      text-align: center;
+      padding: 10px 0;
+    }
+    header img {
+      max-width: 120px;
+      /* Ẩn logo mặc định */
+    }
+    h1 {
+      font-size: 26px;
+      margin: 5px 0;
+      color: #004080;
+    }
+    h2 {
+      font-size: 20px;
+      margin: 5px 0;
+      color: #006699;
+    }
+    h3 {
+      font-size: 16px;
+      margin: 5px 0 15px;
+      color: #444;
+    }
+    .search-box {
+      text-align: center;
+      margin: 15px 0;
+    }
+    .search-box input {
+      padding: 8px;
+      width: 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .search-box button {
+      padding: 8px 15px;
+      margin-left: 5px;
+      background-color: #006699;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background-color: #004d66;
+    }
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 0 10px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 0 auto;
+      width: 100%;
+      background-color: white;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 8px;
+      text-align: left;
+      font-size: 14px;
+    }
+    th {
+      background-color: #006699;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Tiêu đề + Logo -->
+  <header>
+    <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang">
+    <h1>Trường Đại học Kiên Giang</h1>
+    <h2>Tra cứu thông tin Tân sinh viên</h2>
+    <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
+  </header>
+
+  <!-- ô nhập và nút tra cứu -->
+  <div class="search-box">
+    <input type="text" id="cccdInput" placeholder="Nhập số ĐDCN…">
+    <button id="searchBtn">Tra cứu</button>
+  </div>
+
+  <!-- bảng kết quả -->
+  <div class="table-container">
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Số căn cước công dân</th>
+          <th>Họ và tên</th>
+          <th>Ngày sinh</th>
+          <th>Giới tính</th>
+          <th>Ngành trúng tuyển</th>
+          <th>Mã số sinh viên</th>
+          <th>Mã lớp</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- script.js mới -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+
+
