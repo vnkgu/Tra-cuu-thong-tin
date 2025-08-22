@@ -2,27 +2,31 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Tra cứu thông tin</title>
+  <title>Tra cứu thông tin sinh viên</title>
+  <!-- CSS của bạn ở đây -->
 </head>
 <body>
-  <input id="cccd" placeholder="Nhập số ĐĐCN…">
-  <button onclick="searchByColumnB()">Tìm</button>
-  <table id="resultTable" border="1">
-    <thead>
-      <tr>
-        <th>STT</th>
-        <th>Số ĐĐCN</th>
-        <th>Mã xét tuyển</th>
-        <th>Tên mã xét tuyển</th>
-        <th>Họ và tên</th>
-        <th>…</th>
-      </tr>
-    </thead>
-    <tbody>
-      <!-- Kết quả sẽ được đổ vào đây -->
-    </tbody>
-  </table>
+  <!-- ô nhập và nút tra cứu -->
+  <div class="search-box">
+    <input type="text" id="cccdInput" placeholder="Nhập số ĐDCN…">
+    <button id="searchBtn">Tra cứu</button>
+  </div>
 
+  <!-- bảng kết quả -->
+  <div class="table-container">
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>STT</th><th>Số ĐDCN</th><th>Mã xét tuyển</th><!-- ... tới Mã lớp -->
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- script.js mới -->
   <script src="script.js"></script>
 </body>
 </html>
