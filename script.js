@@ -14,9 +14,8 @@ function searchStudent() {
     download: true,
     header: true,
     skipEmptyLines: true,
-    beforeFirstChunk: chunk => chunk.replace(/^\uFEFF/, ''), // bỏ BOM
+    beforeFirstChunk: chunk => chunk.replace(/^\uFEFF/, ''), // bỏ BOM nếu có
     complete: function(results) {
-      // Chuẩn hóa key và value: trim khoảng trắng
       const data = results.data.map(row => {
         const clean = {};
         Object.keys(row).forEach(k => {
@@ -25,45 +24,35 @@ function searchStudent() {
         return clean;
       });
 
-      // Lọc theo cột "Số ĐDCN"
-      const matches = data.filter(row => row['Số ĐDCN'] === cccdInput);
+      const matches = data.filter(row => row['Số căn cước công dân'] === cccdInput);
 
       if (matches.length === 0) {
         tbody.innerHTML = `<tr>
-          <td colspan="${Object.keys(data[0] || {}).length}" style="text-align:center;color:red;">
-            Không tìm thấy dữ liệu
-          </td>
+          <td colspan="8" style="text-align:center;color:red;">Không tìm thấy dữ liệu</td>
         </tr>`;
         return;
       }
 
-      // Render kết quả
-      matches.forEach((row, i) => {
-        const cells = [
-          i + 1,
-          row['STT'],
-          row['Số ĐDCN'],
-          row['Họ và tên'],
-          row['Ngày sinh'],
-          row['Giới tính'],
-          row['Ngành trúng tuyển'] || '',
-          row['Mã số sinh viên'] || '',
-          row['Mã lớp'] || ''
-        ];
-
+      matches.forEach(row => {
         const tr = document.createElement('tr');
-        tr.innerHTML = cells.map(c => `<td>${c}</td>`).join('');
+        tr.innerHTML = `
+          <td>${row['STT']}</td>
+          <td>${row['Số căn cước công dân']}</td>
+          <td>${row['Họ và tên']}</td>
+          <td>${row['Ngày sinh']}</td>
+          <td>${row['Giới tính']}</td>
+          <td>${row['Ngành trúng tuyển']}</td>
+          <td>${row['Mã số sinh viên']}</td>
+          <td>${row['Mã lớp']}</td>
+        `;
         tbody.appendChild(tr);
       });
     },
     error: function(err) {
       console.error(err);
       tbody.innerHTML = `<tr>
-        <td colspan="8" style="text-align:center;color:red;">
-          Lỗi khi tải dữ liệu
-        </td>
+        <td colspan="8" style="text-align:center;color:red;">Lỗi khi tải dữ liệu</td>
       </tr>`;
     }
   });
 }
-
