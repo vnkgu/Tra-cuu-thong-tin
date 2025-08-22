@@ -7,8 +7,24 @@
     body { 
       font-family: Arial, sans-serif; 
       margin: 20px; 
-      text-align: center; /* Canh giữa toàn bộ nội dung */
+      text-align: center;
+      position: relative;
+      min-height: 100vh;
+      background-color: #fdfdfd;
     }
+
+    /* Logo chìm */
+    .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0.08; /* Độ mờ */
+      z-index: -1; /* Đưa ra sau nội dung */
+      width: 500px; /* Kích thước logo */
+      pointer-events: none; /* Không ảnh hưởng thao tác chuột */
+    }
+
     input { 
       padding: 8px; 
       width: 300px; 
@@ -43,6 +59,9 @@
   </style>
 </head>
 <body>
+  <!-- Logo chìm -->
+  <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang" class="watermark">
+
   <h1>Trường Đại học Kiên Giang</h1>
   <h2>Tra cứu thông tin tân sinh viên</h2>
   <h3>Nhập Số căn cước công dân (Số định danh cá nhân)</h3>
