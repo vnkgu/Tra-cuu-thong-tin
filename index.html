@@ -54,7 +54,7 @@
     }
 
     main {
-      max-width: 800px;
+      max-width: 900px;
       margin: 40px auto;
       background: white;
       padding: 30px;
@@ -153,7 +153,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.2);
       z-index: 1000;
       text-align: center;
-      max-width: 300px;
+      max-width: 350px;
     }
     .popup h4 {
       margin: 0 0 10px;
@@ -215,13 +215,10 @@
     const popupOverlay = document.getElementById('popupOverlay');
     const popupTitle = document.getElementById('popupTitle');
     const popupMessage = document.getElementById('popupMessage');
+    const resultTable = document.getElementById('resultTable');
 
-    function showLoader() {
-      loader.style.display = 'block';
-    }
-    function hideLoader() {
-      loader.style.display = 'none';
-    }
+    function showLoader() { loader.style.display = 'block'; }
+    function hideLoader() { loader.style.display = 'none'; }
     function showPopup(title, message) {
       popupTitle.textContent = title;
       popupMessage.textContent = message;
@@ -240,19 +237,28 @@
         return;
       }
 
+      resultTable.innerHTML = '';
       showLoader();
-      // Giả lập thời gian load dữ liệu
-      setTimeout(() => {
-        hideLoader();
-        // Giả lập kết quả
-        const found = Math.random() > 0.5; // test
-        if (found) {
-          showPopup('Thành công', 'Đã tìm thấy thông tin sinh viên.');
-        } else {
-          showPopup('Không tìm thấy', 'Không có dữ liệu cho số CCCD/ĐDCN này.');
-        }
-      }, 1500);
-    });
-  </script>
-</body>
-</html>
+
+      Papa.parse('data.csv', {
+        download: true,
+        header: true,
+        complete: function(results) {
+          hideLoader();
+          const data = results.data.filter(row => row['Số ĐDCN'] === input);
+
+          if (data.length > 0) {
+            // Hiển thị popup tóm tắt
+            const sv = data[0];
+            showPopup('Tìm thấy', `Sinh viên: ${sv['Họ và tên']} - MSSV: ${sv['MSSV'] || data.map(r=>r['MSSV']).join(', ')}`);
+
+            // Hiển thị bảng chi tiết
+            let tableHTML = '<tr>';
+            Object.keys(data[0]).forEach(key => {
+              tableHTML += `<th>${key}</th>`;
+            });
+            tableHTML += '</tr>';
+
+            data.forEach(row => {
+              tableHTML += '<tr>';
+              Object.values
