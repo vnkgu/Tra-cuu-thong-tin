@@ -40,7 +40,6 @@ function searchStudent() {
       // Render kết quả
       matches.forEach((row, i) => {
         const cells = [
-          i + 1,
           row['STT'],
           row['Số ĐDCN'],
           row['Họ và tên'],
@@ -66,4 +65,5 @@ function searchStudent() {
     }
   });
 }
+
 
