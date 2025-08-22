@@ -1,264 +1,105 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Tra cứu thông tin tân sinh viên</title>
-  <style>
-    :root {
-      --primary-color: #006699;
-      --secondary-color: #b87333;
-      --bg-color: #f9f9f9;
-      --text-color: #333;
-    }
-
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      position: relative;
-      min-height: 100vh;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
-
-    /* Logo chìm */
-    .watermark {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.06;
-      z-index: -1;
-      width: 500px;
-      pointer-events: none;
-    }
-
-    header {
-      background: var(--primary-color);
-      color: white;
-      padding: 20px 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    header h2 {
-      margin: 5px 0 0;
-      font-weight: 400;
-      font-size: 18px;
-      color: #e0e0e0;
-    }
-
-    main {
-      max-width: 900px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-
-    h3 {
-      margin-bottom: 15px;
-      color: var(--primary-color);
-    }
-
-    .search-box {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input { 
-      padding: 10px 14px; 
-      width: 280px; 
-      font-size: 16px; 
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    input:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 4px rgba(0,102,153,0.3);
-    }
-
-    button { 
-      padding: 10px 18px; 
-      font-size: 16px; 
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #004d73;
-    }
-
-    table { 
-      border-collapse: collapse; 
-      margin: 30px auto 0; 
-      width: 100%; 
-      font-size: 15px;
-    }
-    th, td { 
-      border: 1px solid #ddd; 
-      padding: 10px; 
-      text-align: left; 
-    }
-    th { 
-      background-color: var(--primary-color); 
-      color: white;
-    }
-    tr:nth-child(even) {
-      background-color: #f5f5f5;
-    }
-    tr:hover {
-      background-color: #eef6fa;
-    }
-
-    /* Loader */
-    .loader {
-      display: none;
-      border: 6px solid #f3f3f3;
-      border-top: 6px solid var(--primary-color);
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Popup */
-    .popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      z-index: 1000;
-      text-align: center;
-      max-width: 350px;
-    }
-    .popup h4 {
-      margin: 0 0 10px;
-      color: var(--primary-color);
-    }
-    .popup button {
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      padding: 8px 14px;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-    .popup-overlay {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.4);
-      z-index: 999;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra cứu thông tin tân sinh viên</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #0066cc;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px 0;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #004999;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            min-height: 50px;
+        }
+    </style>
 </head>
 <body>
-  <!-- Logo chìm -->
-  <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang" class="watermark">
 
-  <header>
-    <h1>Trường Đại học Kiên Giang</h1>
-    <h2>Tra cứu thông tin tân sinh viên</h2>
-  </header>
+    <h1>Tra cứu thông tin tân sinh viên</h1>
+    <label for="cccdInput">Nhập Số CCCD/ĐDCN:</label>
+    <input type="text" id="cccdInput" placeholder="Ví dụ: 001207047742">
+    <button id="searchBtn">Tìm kiếm</button>
 
-  <main>
-    <h3>Nhập Số căn cước công dân (Số định danh cá nhân)</h3>
-    <div class="search-box">
-      <input type="text" id="ddcnInput" placeholder="Nhập Số CCCD/ĐDCN...">
-      <button id="searchBtn">Tìm kiếm</button>
-    </div>
+    <div id="result"></div>
 
-    <div class="loader" id="loader"></div>
-
-    <div id="message" class="no-data"></div>
-    <table id="resultTable"></table>
-  </main>
-
-  <!-- Popup -->
-  <div class="popup-overlay" id="popupOverlay"></div>
-  <div class="popup" id="popup">
-    <h4 id="popupTitle"></h4>
-    <p id="popupMessage"></p>
-    <button onclick="closePopup()">Đóng</button>
-  </div>
-
-  <!-- Thư viện đọc CSV -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script>
-    const loader = document.getElementById('loader');
-    const popup = document.getElementById('popup');
-    const popupOverlay = document.getElementById('popupOverlay');
-    const popupTitle = document.getElementById('popupTitle');
-    const popupMessage = document.getElementById('popupMessage');
-    const resultTable = document.getElementById('resultTable');
-
-    function showLoader() { loader.style.display = 'block'; }
-    function hideLoader() { loader.style.display = 'none'; }
-    function showPopup(title, message) {
-      popupTitle.textContent = title;
-      popupMessage.textContent = message;
-      popup.style.display = 'block';
-      popupOverlay.style.display = 'block';
-    }
-    function closePopup() {
-      popup.style.display = 'none';
-      popupOverlay.style.display = 'none';
-    }
-
-    document.getElementById('searchBtn').addEventListener('click', function() {
-      const input = document.getElementById('ddcnInput').value.trim();
-      if (!input) {
-        showPopup('Lỗi', 'Vui lòng nhập số CCCD/ĐDCN');
-        return;
-      }
-
-      resultTable.innerHTML = '';
-      showLoader();
-
-      Papa.parse('data.csv', {
-        download: true,
-        header: true,
-        complete: function(results) {
-          hideLoader();
-          const data = results.data.filter(row => row['Số ĐDCN'] === input);
-
-          if (data.length > 0) {
-            // Hiển thị popup tóm tắt
-            const sv = data[0];
-            showPopup('Tìm thấy', `Sinh viên: ${sv['Họ và tên']} - MSSV: ${sv['MSSV'] || data.map(r=>r['MSSV']).join(', ')}`);
-
-            // Hiển thị bảng chi tiết
-            let tableHTML = '<tr>';
-            Object.keys(data[0]).forEach(key => {
-              tableHTML += `<th>${key}</th>`;
+    <script>
+        // Hàm đọc CSV và chuyển thành mảng đối tượng
+        async function loadCSV(url) {
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error(`Không thể tải file CSV: ${response.statusText}`);
+            }
+            const text = await response.text();
+            const rows = text.trim().split("\n").map(row => row.split(","));
+            const headers = rows.shift();
+            return rows.map(row => {
+                let obj = {};
+                headers.forEach((header, i) => {
+                    obj[header.trim()] = row[i] ? row[i].trim() : "";
+                });
+                return obj;
             });
-            tableHTML += '</tr>';
+        }
 
-            data.forEach(row => {
-              tableHTML += '<tr>';
-              Object.values
+        // Hàm tìm kiếm
+        async function searchCCCD() {
+            const input = document.getElementById("cccdInput").value.trim();
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "<em>Đang tìm kiếm...</em>";
+
+            if (!input) {
+                resultDiv.innerHTML = "<span style='color:red'>Vui lòng nhập số CCCD</span>";
+                return;
+            }
+
+            try {
+                const data = await loadCSV("data.csv"); // Đọc file CSV
+                const found = data.find(item => item.CCCD === input);
+
+                if (found) {
+                    resultDiv.innerHTML = `
+                        <h3>Kết quả tìm kiếm:</h3>
+                        <p><strong>Họ tên:</strong> ${found["Họ tên"]}</p>
+                        <p><strong>Ngày sinh:</strong> ${found["Ngày sinh"]}</p>
+                        <p><strong>Lớp:</strong> ${found["Lớp"]}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = "<span style='color:red'>Không tìm thấy thông tin</span>";
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<span style='color:red'>Lỗi: ${error.message}</span>`;
+            }
+        }
+
+        // Gắn sự kiện cho nút
+        document.getElementById("searchBtn").addEventListener("click", searchCCCD);
+    </script>
+
+</body>
+</html>
