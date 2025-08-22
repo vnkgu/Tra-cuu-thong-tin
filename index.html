@@ -1,181 +1,148 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8">
-  <title>Tra cứu thông tin sinh viên</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-    body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background-color: #f4f7fa;
-      color: #333;
-      line-height: 1.6;
-    }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: linear-gradient(180deg, #f4f7fa, #e9f1f7);
+    color: #333;
+    line-height: 1.6;
+  }
 
-    header {
-      text-align: center;
-      padding: 25px 10px;
-      background: linear-gradient(135deg, #004080, #006699);
-      color: white;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.15);
-    }
+  header {
+    text-align: center;
+    padding: 30px 10px;
+    background: linear-gradient(135deg, #004080, #006699);
+    color: white;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    position: relative;
+  }
 
-    /* Logo nổi bật hơn */
-    header img {
-      max-width: 110px;
-      margin-bottom: 12px;
-      background-color: white;
-      padding: 10px;
-      border-radius: 10px;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.25);
-    }
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background-color: #ffcc00;
+    border-radius: 2px;
+  }
 
-    h1 {
-      font-size: 30px;
-      margin-bottom: 6px;
-      font-weight: bold;
-    }
+  header img {
+    max-width: 110px;
+    margin-bottom: 12px;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    transition: transform 0.3s;
+  }
 
-    h2 {
-      font-size: 22px;
-      font-weight: 500;
-      margin-bottom: 6px;
-    }
+  header img:hover {
+    transform: scale(1.05);
+  }
 
-    h3 {
-      font-size: 16px;
-      font-weight: 300;
-      opacity: 0.95;
-    }
+  h1 {
+    font-size: 30px;
+    margin-bottom: 6px;
+    font-weight: bold;
+  }
 
-    .search-box {
-      text-align: center;
-      margin: 30px 0;
-    }
+  h2 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
 
-    .search-box input {
-      padding: 12px 14px;
-      width: 300px;
-      border: 1px solid #bbb;
-      border-radius: 6px;
-      font-size: 15px;
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
+  h3 {
+    font-size: 16px;
+    font-weight: 300;
+    opacity: 0.95;
+  }
 
-    .search-box input:focus {
-      border-color: #006699;
-      outline: none;
-      box-shadow: 0 0 6px rgba(0,102,153,0.3);
-    }
+  .search-box {
+    text-align: center;
+    margin: 40px 0 30px;
+  }
 
-    .search-box button {
-      padding: 12px 20px;
-      margin-left: 10px;
-      background-color: #006699;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+  .search-box input {
+    padding: 12px 14px;
+    width: 320px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+    font-size: 15px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
 
-    .search-box button:hover {
-      background-color: #004d66;
-    }
+  .search-box input:focus {
+    border-color: #006699;
+    outline: none;
+    box-shadow: 0 0 8px rgba(0,102,153,0.3);
+  }
 
-    .table-container {
-      max-width: 100%;
-      overflow-x: auto;
-      padding: 0 15px 40px;
-    }
+  .search-box button {
+    padding: 12px 20px;
+    margin-left: 10px;
+    background: linear-gradient(135deg, #006699, #004d66);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
 
-    table {
-      border-collapse: collapse;
-      margin: 0 auto;
-      width: 100%;
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    }
+  .search-box button:hover {
+    background: linear-gradient(135deg, #004d66, #00334d);
+    transform: translateY(-1px);
+  }
 
-    /* Đặt độ rộng hợp lý cho từng cột */
-    #resultTable th:nth-child(1), #resultTable td:nth-child(1) { width: 50px; }
-    #resultTable th:nth-child(2), #resultTable td:nth-child(2) { width: 160px; }
-    #resultTable th:nth-child(3), #resultTable td:nth-child(3) { width: 200px; }
-    #resultTable th:nth-child(4), #resultTable td:nth-child(4) { width: 110px; }
-    #resultTable th:nth-child(5), #resultTable td:nth-child(5) { width: 80px; }
-    #resultTable th:nth-child(6), #resultTable td:nth-child(6) { width: 240px; }
-    #resultTable th:nth-child(7), #resultTable td:nth-child(7) { width: 120px; }
-    #resultTable th:nth-child(8), #resultTable td:nth-child(8) { width: 100px; }
+  .table-container {
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 0 15px 40px;
+  }
 
-    th, td {
-      border: 1px solid #ddd;
-      padding: 12px 8px;
-      text-align: center;
-      font-size: 14px;
-    }
+  table {
+    border-collapse: collapse;
+    margin: 0 auto;
+    width: 100%;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    animation: fadeIn 0.5s ease-in-out;
+  }
 
-    th {
-      background-color: #006699;
-      color: white;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  th, td {
+    border: 1px solid #ddd;
+    padding: 12px 8px;
+    text-align: center;
+    font-size: 14px;
+  }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+  th {
+    background-color: #006699;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
 
-    tr:hover td {
-      background-color: #eef6fa;
-    }
-  </style>
-</head>
-<body>
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
 
-  <!-- Tiêu đề + Logo -->
-  <header>
-    <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang">
-    <h1>Trường Đại học Kiên Giang</h1>
-    <h2>Tra cứu thông tin Tân sinh viên</h2>
-    <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
-  </header>
+  tr:hover td {
+    background-color: #eef6fa;
+  }
 
-  <!-- ô nhập và nút tra cứu -->
-  <div class="search-box">
-    <input type="text" id="cccdInput" placeholder="Nhập số ĐDCN…">
-    <button id="searchBtn">Tra cứu</button>
-  </div>
-
-  <!-- bảng kết quả -->
-  <div class="table-container">
-    <table id="resultTable">
-      <thead>
-        <tr>
-          <th>STT</th>
-          <th>Số căn cước công dân</th>
-          <th>Họ và tên</th>
-          <th>Ngày sinh</th>
-          <th>Giới tính</th>
-          <th>Ngành trúng tuyển</th>
-          <th>Mã số sinh viên</th>
-          <th>Mã lớp</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
-
-  <!-- PapaParse -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- script.js -->
-  <script src="script.js"></script>
-</body>
-</html>
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
