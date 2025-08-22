@@ -41,21 +41,13 @@ function searchStudent() {
       matches.forEach((row, i) => {
         const cells = [
           i + 1,
+          row['STT'],
           row['Số ĐDCN'],
-          row['Mã xét tuyển'],
-          row['Tên mã xét tuyển'],
           row['Họ và tên'],
           row['Ngày sinh'],
           row['Giới tính'],
-          row['ĐTƯT'] || '',
-          row['KVƯT'] || '',
-          row['Năm TN THPT'] || '',
-          row['Học lực/Kết quả học tập'] || '',
-          row['Hạnh kiểm/Kết quả rèn luyện'] || '',
-          row['Điểm TB Lớp 12/Điểm TB các năm học'] || '',
-          row['Dân tộc'] || '',
-          row['Nơi sinh'] || '',
-          row['MSSV'] || '',
+          row['Ngành trúng tuyển'] || '',
+          row['Mã số sinh viên'] || '',
           row['Mã lớp'] || ''
         ];
 
@@ -67,10 +59,11 @@ function searchStudent() {
     error: function(err) {
       console.error(err);
       tbody.innerHTML = `<tr>
-        <td colspan="17" style="text-align:center;color:red;">
+        <td colspan="8" style="text-align:center;color:red;">
           Lỗi khi tải dữ liệu
         </td>
       </tr>`;
     }
   });
 }
+
