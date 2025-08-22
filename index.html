@@ -103,6 +103,47 @@
       overflow: hidden;
       box-shadow: 0 2px 8px rgba(0,0,0,0.05);
     }
+    /* Đặt độ rộng hợp lý cho từng cột */
+#resultTable th:nth-child(1), 
+#resultTable td:nth-child(1) {
+  width: 50px; /* STT */
+}
+
+#resultTable th:nth-child(2), 
+#resultTable td:nth-child(2) {
+  width: 160px; /* Số CCCD */
+}
+
+#resultTable th:nth-child(3), 
+#resultTable td:nth-child(3) {
+  width: 180px; /* Họ và tên */
+}
+
+#resultTable th:nth-child(4), 
+#resultTable td:nth-child(4) {
+  width: 110px; /* Ngày sinh */
+}
+
+#resultTable th:nth-child(5), 
+#resultTable td:nth-child(5) {
+  width: 80px; /* Giới tính */
+}
+
+#resultTable th:nth-child(6), 
+#resultTable td:nth-child(6) {
+  width: 220px; /* Ngành trúng tuyển */
+}
+
+#resultTable th:nth-child(7), 
+#resultTable td:nth-child(7) {
+  width: 120px; /* Mã số SV */
+}
+
+#resultTable th:nth-child(8), 
+#resultTable td:nth-child(8) {
+  width: 100px; /* Mã lớp */
+}
+
 
     th, td {
       border: 1px solid #ddd;
@@ -168,3 +209,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
