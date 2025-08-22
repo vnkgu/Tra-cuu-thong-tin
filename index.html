@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Tra cứu thông tin sinh viên</title>
+  <title>Tra cứu thông tin Tân sinh viên</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -15,7 +15,6 @@
     }
     header img {
       max-width: 120px;
-      /* Ẩn logo mặc định */
     }
     h1 {
       font-size: 26px;
@@ -82,7 +81,6 @@
 </head>
 <body>
 
-  <!-- Tiêu đề + Logo -->
   <header>
     <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang">
     <h1>Trường Đại học Kiên Giang</h1>
@@ -90,13 +88,11 @@
     <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
   </header>
 
-  <!-- ô nhập và nút tra cứu -->
   <div class="search-box">
     <input type="text" id="cccdInput" placeholder="Nhập số ĐDCN…">
     <button id="searchBtn">Tra cứu</button>
   </div>
 
-  <!-- bảng kết quả -->
   <div class="table-container">
     <table id="resultTable">
       <thead>
@@ -115,12 +111,7 @@
     </table>
   </div>
 
-  <!-- PapaParse -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <!-- script.js mới -->
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
