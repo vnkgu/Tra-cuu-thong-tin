@@ -152,6 +152,16 @@ h1, h2, h3 {
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;500&family=Merriweather:wght@700&display=swap" rel="stylesheet">
 
 </head>
+  <script>
+  // Lắng nghe phím Enter trong ô nhập
+  document.getElementById("cccdInput").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+      event.preventDefault(); // Ngăn form submit mặc định (nếu có)
+      document.getElementById("searchBtn").click(); // Giả lập click nút Tra cứu
+    }
+  });
+</script>
+
 <body>
 
   <!-- Tiêu đề + Logo -->
@@ -193,6 +203,7 @@ h1, h2, h3 {
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
