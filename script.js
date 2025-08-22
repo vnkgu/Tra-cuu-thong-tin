@@ -24,7 +24,7 @@ async function searchStudent() {
 
     // Lọc dữ liệu trùng CCCD
     const results = rows.slice(1).filter(cols => {
-      const soDDCN = cols[1] ? cols[1].trim() : '';
+      const soDDCN = cols[2] ? cols[2].trim() : '';
       return soDDCN === cccdInput;
     });
 
@@ -62,3 +62,4 @@ async function searchStudent() {
     tbody.innerHTML = '<tr><td colspan="17" style="text-align:center;color:red;">Có lỗi khi tải dữ liệu</td></tr>';
   }
 }
+
