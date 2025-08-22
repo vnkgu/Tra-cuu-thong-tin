@@ -1,63 +1,64 @@
-let allData = [];
-let csvLoaded = false;
+async function searchStudent() {
+  const cccdInput = document.getElementById('cccd').value.trim();
+  const tbody = document.querySelector('#resultTable tbody');
+  tbody.innerHTML = '';
 
-// Đọc file CSV khi tải trang
-fetch("data.csv")
-  .then(response => {
-    if (!response.ok) throw new Error("Không thể tải file CSV");
-    return response.text();
-  })
-  .then(csvText => {
-    const results = Papa.parse(csvText, { header: true, skipEmptyLines: true });
-    allData = results.data;
-    csvLoaded = true;
-    console.log("CSV loaded:", allData.length, "dòng dữ liệu");
-    console.log("Tên cột:", Object.keys(allData[0] || {}));
-  })
-  .catch(err => {
-    document.getElementById("message").textContent = "Lỗi tải dữ liệu: " + err.message;
-  });
-
-function searchByDDCN() {
-  const ddcn = document.getElementById("ddcnInput").value.trim();
-  const messageDiv = document.getElementById("message");
-  const table = document.getElementById("resultTable");
-
-  messageDiv.textContent = "";
-  table.innerHTML = "";
-
-  if (!csvLoaded) {
-    messageDiv.textContent = "Dữ liệu chưa sẵn sàng, vui lòng thử lại sau.";
+  if (!cccdInput) {
+    alert("Vui lòng nhập số CCCD/CMND");
     return;
   }
 
-  if (!ddcn) {
-    messageDiv.textContent = "Vui lòng nhập Số ĐDCN.";
-    return;
+  try {
+    const res = await fetch('data.csv');
+    if (!res.ok) throw new Error("Không thể tải dữ liệu");
+
+    let text = await res.text();
+
+    // Loại bỏ BOM nếu có
+    text = text.replace(/^\uFEFF/, '');
+
+    const rows = text.trim().split('\n').map(r => r.split(','));
+
+    // Lấy tiêu đề cột
+    const headers = rows[0].map(h => h.trim());
+
+    // Lọc dữ liệu trùng CCCD
+    const results = rows.slice(1).filter(cols => {
+      const soDDCN = cols[1] ? cols[1].trim() : '';
+      return soDDCN === cccdInput;
+    });
+
+    if (results.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="17" style="text-align:center;">Không tìm thấy dữ liệu</td></tr>';
+      return;
+    }
+
+    results.forEach((cols, index) => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${index + 1}</td>
+        <td>${cols[1] || ''}</td>
+        <td>${cols[2] || ''}</td>
+        <td>${cols[3] || ''}</td>
+        <td>${cols[4] || ''}</td>
+        <td>${cols[5] || ''}</td>
+        <td>${cols[6] || ''}</td>
+        <td>${cols[7] || ''}</td>
+        <td>${cols[8] || ''}</td>
+        <td>${cols[9] || ''}</td>
+        <td>${cols[10] || ''}</td>
+        <td>${cols[11] || ''}</td>
+        <td>${cols[12] || ''}</td>
+        <td>${cols[13] || ''}</td>
+        <td>${cols[14] || ''}</td>
+        <td>${cols[15] || ''}</td>
+        <td>${cols[16] || ''}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+  } catch (err) {
+    console.error(err);
+    tbody.innerHTML = '<tr><td colspan="17" style="text-align:center;color:red;">Có lỗi khi tải dữ liệu</td></tr>';
   }
-
-  // Lọc dữ liệu (so khớp chính xác)
-  const results = allData.filter(row => (row["Số ĐDCN"] || "").trim() === ddcn);
-
-  if (results.length === 0) {
-    messageDiv.textContent = "Không tìm thấy dữ liệu cho Số ĐDCN này.";
-    return;
-  }
-
-  // Tạo bảng kết quả
-  const headers = Object.keys(results[0]);
-  let headerRow = "<tr>" + headers.map(h => `<th>${h}</th>`).join("") + "</tr>";
-  let bodyRows = results.map(row => {
-    return "<tr>" + headers.map(h => `<td>${row[h] || ""}</td>`).join("") + "</tr>";
-}).join("");
-
-  table.innerHTML = headerRow + bodyRows;
 }
-
-document.getElementById("searchBtn").addEventListener("click", searchByDDCN);
-document.getElementById("ddcnInput").addEventListener("keypress", function(e) {
-  if (e.key === "Enter") {
-    searchByDDCN();
-  }
-});
-
