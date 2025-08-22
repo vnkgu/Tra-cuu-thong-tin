@@ -1,4 +1,9 @@
-<style>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tra cứu thông tin sinh viên</title>
+  <style>
   * {
     margin: 0;
     padding: 0;
@@ -146,3 +151,46 @@
     to { opacity: 1; transform: translateY(0); }
   }
 </style>
+
+</head>
+<body>
+
+  <!-- Tiêu đề + Logo -->
+  <header>
+    <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang">
+    <h1>Trường Đại học Kiên Giang</h1>
+    <h2>Tra cứu thông tin Tân sinh viên</h2>
+    <h3>Nhập Số căn cước công dân/Định danh cá nhân</h3>
+  </header>
+
+  <!-- ô nhập và nút tra cứu -->
+  <div class="search-box">
+    <input type="text" id="cccdInput" placeholder="Nhập số ĐDCN…">
+    <button id="searchBtn">Tra cứu</button>
+  </div>
+
+  <!-- bảng kết quả -->
+  <div class="table-container">
+    <table id="resultTable">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Số căn cước công dân</th>
+          <th>Họ và tên</th>
+          <th>Ngày sinh</th>
+          <th>Giới tính</th>
+          <th>Ngành trúng tuyển</th>
+          <th>Mã số sinh viên</th>
+          <th>Mã lớp</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- PapaParse -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <!-- script.js -->
+  <script src="script.js"></script>
+</body>
+</html>
