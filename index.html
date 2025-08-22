@@ -2,157 +2,208 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Tra cứu thông tin tân sinh viên</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tra cứu thông tin sinh viên - Trường Đại học Kiên Giang</title>
   <style>
-    :root {
-      --primary-color: #006699; /* Xanh dương thương hiệu */
-      --secondary-color: #b87333; /* Nâu đồng */
-      --bg-color: #f9f9f9;
-      --text-color: #333;
-    }
-
-    body { 
-      font-family: 'Segoe UI', Arial, sans-serif; 
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
-      text-align: center;
-      position: relative;
-      min-height: 100vh;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-    }
-
-    /* Logo chìm */
-    .watermark {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      opacity: 0.06;
-      z-index: -1;
-      width: 500px;
-      pointer-events: none;
+      background-color: #f9f9f9;
     }
 
     header {
-      background: var(--primary-color);
+      background-color: #006699;
       color: white;
-      padding: 20px 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    header h2 {
-      margin: 5px 0 0;
-      font-weight: 400;
-      font-size: 18px;
-      color: #e0e0e0;
+      padding: 15px;
+      text-align: center;
     }
 
     main {
-      max-width: 800px;
-      margin: 40px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 20px;
     }
 
-    h3 {
-      margin-bottom: 15px;
-      color: var(--primary-color);
+    /* Khung bao bảng để cuộn ngang khi cần */
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+      margin-top: 20px;
     }
 
-    .search-box {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    input { 
-      padding: 10px 14px; 
-      width: 280px; 
-      font-size: 16px; 
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      outline: none;
-      transition: border-color 0.3s;
-    }
-    input:focus {
-      border-color: var(--primary-color);
-      box-shadow: 0 0 4px rgba(0,102,153,0.3);
-    }
-
-    button { 
-      padding: 10px 18px; 
-      font-size: 16px; 
-      background: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #004d73;
-    }
-
-    table { 
-      border-collapse: collapse; 
-      margin: 30px auto 0; 
-      width: 100%; 
+    /* Bảng kết quả */
+    #resultTable {
+      border-collapse: collapse;
+      margin: 0 auto; /* Căn giữa */
+      width: 95%; /* Chiếm 95% chiều ngang cửa sổ */
+      max-width: 1200px; /* Giới hạn tối đa */
       font-size: 15px;
+      background-color: white;
     }
-    th, td { 
-      border: 1px solid #ddd; 
-      padding: 10px; 
-      text-align: left; 
+
+    #resultTable th, #resultTable td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
     }
-    th { 
-      background-color: var(--primary-color); 
+
+    #resultTable th {
+      background-color: #006699;
       color: white;
     }
-    tr:nth-child(even) {
+
+    #resultTable tr:nth-child(even) {
       background-color: #f5f5f5;
     }
-    tr:hover {
+
+    #resultTable tr:hover {
       background-color: #eef6fa;
     }
 
-    .no-data { 
-      margin-top: 20px; 
-      color: red; 
-      font-weight: bold;
+    /* Form tra cứu */
+    .search-box {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .search-box input {
+      padding: 8px;
+      font-size: 14px;
+      width: 250px;
+      max-width: 80%;
+    }
+
+    .search-box button {
+      padding: 8px 12px;
+      font-size: 14px;
+      background-color: #006699;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background-color: #004d66;
     }
   </style>
 </head>
 <body>
-  <!-- Logo chìm -->
-  <img src="logo-kgu.png" alt="Logo Trường Đại học Kiên Giang" class="watermark">
-
   <header>
-    <h1>Trường Đại học Kiên Giang</h1>
-    <h2>Tra cứu thông tin tân sinh viên</h2>
+    <h1>Tra cứu thông tin sinh viên</h1>
+    <p>Trường Đại học Kiên Giang</p>
   </header>
 
   <main>
-    <h3>Nhập Số căn cước công dân (Số định danh cá nhân)</h3>
     <div class="search-box">
-      <input type="text" id="ddcnInput" placeholder="Nhập Số CCCD/ĐDCN...">
-      <button id="searchBtn">Tìm kiếm</button>
+      <input type="text" id="cccd" placeholder="Nhập số CCCD/CMND">
+      <button onclick="searchStudent()">Tra cứu</button>
     </div>
 
-    <div id="message" class="no-data"></div>
-    <table id="resultTable"></table>
+    <div class="table-container">
+      <table id="resultTable">
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Số ĐĐCN</th>
+            <th>Mã xét tuyển</th>
+            <th>Tên mã xét tuyển</th>
+            <th>Họ và tên</th>
+            <th>Ngày sinh</th>
+            <th>Giới tính</th>
+            <th>ĐTƯT</th>
+            <th>KVƯT</th>
+            <th>Năm TN THPT</th>
+            <th>Học lực</th>
+            <th>Hạnh kiểm</th>
+            <th>Điểm TB Lớp 12</th>
+            <th>Dân tộc</th>
+            <th>Nơi sinh</th>
+            <th>MSSV</th>
+            <th>Mã lớp</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Kết quả sẽ được thêm vào đây bằng JavaScript -->
+        </tbody>
+      </table>
+    </div>
   </main>
 
-  <!-- Thư viện đọc CSV -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
-  <script src="script.js"></script>
+  <script>
+    function searchStudent() {
+      const cccd = document.getElementById('cccd').value.trim();
+      const tbody = document.querySelector('#resultTable tbody');
+      tbody.innerHTML = '';
+
+      // Ví dụ dữ liệu mẫu (bạn thay bằng dữ liệu thực từ API)
+      if (cccd === '001207047742') {
+        const data = [
+          {
+            stt: 1,
+            soDDCN: '001207047742',
+            maXT: '7340101',
+            tenXT: 'Quản trị kinh doanh',
+            hoTen: 'Ngô Hoàng Tâm',
+            ngaySinh: '04/05/2007',
+            gioiTinh: 'Nam',
+            dtut: '2',
+            kvut: '2',
+            namTN: '2025',
+            hocLuc: 'Khá',
+            hanhKiem: 'Tốt',
+            diemTB: '7.52',
+            danToc: 'Kinh',
+            noiSinh: 'Kiên Giang',
+            mssv: '250000001',
+            maLop: 'B025xx1'
+          },
+          {
+            stt: 2,
+            soDDCN: '001207047742',
+            maXT: '7380101',
+            tenXT: 'Luật',
+            hoTen: 'Ngô Hoàng Tâm',
+            ngaySinh: '04/05/2007',
+            gioiTinh: 'Nam',
+            dtut: '2',
+            kvut: '2',
+            namTN: '2025',
+            hocLuc: 'Khá',
+            hanhKiem: 'Tốt',
+            diemTB: '7.52',
+            danToc: 'Kinh',
+            noiSinh: 'Kiên Giang',
+            mssv: '250000002',
+            maLop: 'B025xx2'
+          }
+        ];
+
+        data.forEach(row => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.stt}</td>
+            <td>${row.soDDCN}</td>
+            <td>${row.maXT}</td>
+            <td>${row.tenXT}</td>
+            <td>${row.hoTen}</td>
+            <td>${row.ngaySinh}</td>
+            <td>${row.gioiTinh}</td>
+            <td>${row.dtut}</td>
+            <td>${row.kvut}</td>
+            <td>${row.namTN}</td>
+            <td>${row.hocLuc}</td>
+            <td>${row.hanhKiem}</td>
+            <td>${row.diemTB}</td>
+            <td>${row.danToc}</td>
+            <td>${row.noiSinh}</td>
+            <td>${row.mssv}</td>
+            <td>${row.maLop}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } else {
+        tbody.innerHTML = '<tr><td colspan="17" style="text-align:center;">Không tìm thấy dữ liệu</td></tr>';
+      }
+    }
+  </script>
 </body>
 </html>
