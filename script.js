@@ -13,18 +13,12 @@ async function searchStudent() {
     if (!res.ok) throw new Error("Không thể tải dữ liệu");
 
     let text = await res.text();
-
-    // Loại bỏ BOM nếu có
-    text = text.replace(/^\uFEFF/, '');
+    text = text.replace(/^\uFEFF/, ''); // bỏ BOM
 
     const rows = text.trim().split('\n').map(r => r.split(','));
 
-    // Lấy tiêu đề cột
-    const headers = rows[0].map(h => h.trim());
-
-    // Lọc dữ liệu trùng CCCD
     const results = rows.slice(1).filter(cols => {
-      const soDDCN = cols[2] ? cols[2].trim() : '';
+      const soDDCN = cols[2] ? cols[2].trim() : ''; // cột CCCD
       return soDDCN === cccdInput;
     });
 
@@ -37,7 +31,6 @@ async function searchStudent() {
       const tr = document.createElement('tr');
       tr.innerHTML = `
         <td>${index + 1}</td>
-        <td>${cols[1] || ''}</td>
         <td>${cols[2] || ''}</td>
         <td>${cols[3] || ''}</td>
         <td>${cols[4] || ''}</td>
@@ -53,6 +46,7 @@ async function searchStudent() {
         <td>${cols[14] || ''}</td>
         <td>${cols[15] || ''}</td>
         <td>${cols[16] || ''}</td>
+        <td>${cols[17] || ''}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -62,4 +56,3 @@ async function searchStudent() {
     tbody.innerHTML = '<tr><td colspan="17" style="text-align:center;color:red;">Có lỗi khi tải dữ liệu</td></tr>';
   }
 }
-
