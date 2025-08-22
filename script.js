@@ -1,50 +1,81 @@
-async function searchByColumnB() {
-  const input = document.getElementById('cccd').value.trim();
+document.getElementById('searchBtn').addEventListener('click', searchStudent);
+
+function searchStudent() {
+  const cccdInput = document.getElementById('cccdInput').value.trim();
   const tbody = document.querySelector('#resultTable tbody');
   tbody.innerHTML = '';
 
-  if (!input) {
-    alert("Vui lòng nhập số ĐĐCN");
+  if (!cccdInput) {
+    alert('Vui lòng nhập số ĐDCN');
     return;
   }
 
-  try {
-    const res = await fetch('data.csv');
-    if (!res.ok) throw new Error("Không thể tải file CSV");
-    let text = await res.text();
-    text = text.replace(/^\uFEFF/, '');           // Loại bỏ BOM nếu có
+  Papa.parse('data.csv', {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    // loại bỏ BOM trước khi parse
+    beforeFirstChunk: (chunk) => chunk.replace(/^\uFEFF/, ''),
+    complete: function(results) {
+      // Chuẩn hóa key và value: trim
+      const data = results.data.map(row => {
+        const clean = {};
+        Object.keys(row).forEach(k => {
+          const key = k.trim();
+          clean[key] = row[k] != null ? row[k].trim() : '';
+        });
+        return clean;
+      });
 
-    // Tách dòng, bỏ các dòng trống
-    const lines = text.split(/\r?\n/).filter(line => line.trim() !== '');
+      // Lọc theo cột "Số ĐDCN"
+      const matches = data.filter(row => row['Số ĐDCN'] === cccdInput);
 
-    const results = [];
-    // Bỏ qua dòng tiêu đề (index 0), bắt đầu từ dòng data
-    for (let i = 1; i < lines.length; i++) {
-      const cols = lines[i].split(',');
-      // cols[1] chính là cột B (Số ĐĐCN)
-      if (cols[1] && cols[1].trim() === input) {
-        results.push(cols.map(c => c.trim()));
+      if (matches.length === 0) {
+        tbody.innerHTML = `<tr>
+          <td colspan="${Object.keys(data[0]||{}).length+1}" 
+              style="text-align:center;color:red;">
+            Không tìm thấy dữ liệu
+          </td>
+        </tr>`;
+        return;
       }
+
+      // Render kết quả
+      matches.forEach((row, i) => {
+        // Nếu bạn đã đặt STT là cột riêng, chúng ta xuất i+1
+        const cells = [
+          i+1,
+          row['Số ĐDCN'],
+          row['Mã xét tuyển'],
+          row['Tên mã xét tuyển'],
+          row['Họ và tên'],
+          row['Ngày sinh'],
+          row['Giới tính'],
+          row['ĐTƯT'] || '',
+          row['KVƯT'] || '',
+          row['Năm TN THPT'] || '',
+          row['Học lực/Kết quả học tập'] || '',
+          row['Hạnh kiểm/Kết quả rèn luyện'] || '',
+          row['Điểm TB Lớp 12/Điểm TB các năm học'] || '',
+          row['Dân tộc'] || '',
+          row['Nơi sinh'] || '',
+          row['MSSV'] || '',
+          row['Mã lớp'] || ''
+        ];
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = cells.map(c => `<td>${c}</td>`).join('');
+        tbody.appendChild(tr);
+      });
+    },
+    error: function(err) {
+      console.error(err);
+      const tbody = document.querySelector('#resultTable tbody');
+      tbody.innerHTML = `<tr>
+        <td colspan="17" style="text-align:center;color:red;">
+          Lỗi khi tải dữ liệu
+        </td>
+      </tr>`;
     }
-
-    if (results.length === 0) {
-      tbody.innerHTML = 
-        '<tr><td colspan="' + lines[0].split(',').length + '" style="text-align:center;">Không tìm thấy dữ liệu</td></tr>';
-      return;
-    }
-
-    // Đổ kết quả ra bảng
-    results.forEach((cols, idx) => {
-      const tr = document.createElement('tr');
-      // STT
-      tr.innerHTML = `<td>${idx + 1}</td>` +
-        cols.map(c => `<td>${c}</td>`).join('');
-      tbody.appendChild(tr);
-    });
-
-  } catch (err) {
-    console.error(err);
-    tbody.innerHTML = 
-      '<tr><td colspan="100%" style="text-align:center;color:red;">Có lỗi khi tải dữ liệu</td></tr>';
-  }
+  });
 }
