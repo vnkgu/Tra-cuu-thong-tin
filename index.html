@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tra cứu thông tin tân sinh viên</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      text-align: center; /* Canh giữa toàn bộ nội dung */
+    }
+    input { 
+      padding: 8px; 
+      width: 300px; 
+      font-size: 16px; 
+      margin-top: 10px;
+    }
+    button { 
+      padding: 8px 12px; 
+      font-size: 16px; 
+      margin-left: 5px; 
+    }
+    table { 
+      border-collapse: collapse; 
+      margin: 20px auto; 
+      width: 80%; 
+    }
+    th, td { 
+      border: 1px solid #ccc; 
+      padding: 6px; 
+      text-align: left; 
+    }
+    th { 
+      background-color: #f2f2f2; 
+    }
+    .no-data { 
+      margin-top: 20px; 
+      color: red; 
+    }
+    h1, h2, h3 {
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Trường Đại học Kiên Giang</h1>
+  <h2>Tra cứu thông tin tân sinh viên</h2>
+  <h3>Nhập Số căn cước công dân (Số định danh cá nhân)</h3>
+
+  <div>
+    <input type="text" id="ddcnInput" placeholder="Nhập Số CCCD/ĐDCN...">
+    <button id="searchBtn">Tìm kiếm</button>
+  </div>
+
+  <div id="message" class="no-data"></div>
+  <table id="resultTable"></table>
+
+  <!-- Thư viện đọc CSV -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
